@@ -36,6 +36,7 @@ app.use(
       "http://localhost:3000",
       "https://go-go-fe-ljpj.vercel.app",
       "https://go-go-fe.vercel.app/",
+      "https://www.gogoreview.xyz/",
     ], // or your client-side address
     credentials: true,
   })
