@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
+import blogRouter from './routes/blogs.js'
 import tourRoute from "./routes/tours.js";
 import userRoute from "./routes/users.js";
 import authRoute from "./routes/auth.js";
@@ -46,8 +46,10 @@ app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/tours", tourRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/reviews", reviewRoute);
+app.use('/api/v1/blogs', blogRouter);
 
 app.listen(port, () => {
   connect();
   console.log("server listening on port", port);
+  
 });
