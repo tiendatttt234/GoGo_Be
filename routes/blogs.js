@@ -1,24 +1,24 @@
-import express from 'express'
-import { verifyAdmin } from '../utils/verifyToken.js'
+import express from 'express';
 import { 
+    getAllBlogs,
+    getSingleBlog,
     createBlog,
     updateBlog,
     deleteBlog,
-    getSingleBlog,
-    getAllBlogs,
-    getFeaturedBlogs 
-} from '../controllers/blogController.js'
+    getFeaturedBlogs
+} from '../controllers/blogController.js';
+import { verifyAdmin } from '../utils/verifyToken.js';
 
-const router = express.Router()
+const router = express.Router();
 
-// Public routes - anyone can view
-router.get('/', getAllBlogs)
-router.get('/featured', getFeaturedBlogs)
-router.get('/:id', getSingleBlog)
+// Public routes
+router.get('/', getAllBlogs);
+router.get('/featured', getFeaturedBlogs);
+router.get('/:id', getSingleBlog);
 
-// Protected routes - admin only
-router.post('/', verifyAdmin, createBlog)
-router.put('/:id', verifyAdmin, updateBlog)
-router.delete('/:id', verifyAdmin, deleteBlog)
+// Admin only routes
+router.post('/', verifyAdmin, createBlog);
+router.put('/:id', verifyAdmin, updateBlog);
+router.delete('/:id', verifyAdmin, deleteBlog);
 
-export default router
+export default router;
