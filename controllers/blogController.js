@@ -78,9 +78,13 @@ export const getSingleBlog = async (req, res) => {
             });
         }
 
-        res.status(200).json(blog); // Return blog directly without wrapping
+        res.status(200).json({
+            success: true,
+            data: blog
+        });  // Wrap blog in success/data format
 
     } catch (err) {
+        console.error('Error fetching blog:', err);
         res.status(500).json({
             success: false,
             message: "Failed to fetch blog"
