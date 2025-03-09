@@ -95,6 +95,15 @@ export const getSingleBlog = async (req, res) => {
 // Create new blog (admin only)
 export const createBlog = async (req, res) => {
     try {
+        // Check if blog with same title exists
+        const existingBlog = await Blog.findOne({ title: req.body.title });
+        if (existingBlog) {
+            return res.status(400).json({
+                success: false,
+                message: "A blog with this title already exists"
+            });
+        }
+
         const newBlog = new Blog({
             ...req.body,
             author: req.user.id
@@ -108,9 +117,10 @@ export const createBlog = async (req, res) => {
             data: savedBlog
         });
     } catch (err) {
+        console.error('Error creating blog:', err);
         res.status(500).json({
             success: false,
-            message: "Failed to create blog"
+            message: err.code === 11000 ? "A blog with this title already exists" : "Failed to create blog"
         });
     }
 };
