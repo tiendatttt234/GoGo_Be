@@ -34,13 +34,17 @@ const tourSchema = new mongoose.Schema(
     photo: {
       type: String,
     },
+    featured: {
+      type: Boolean,
+      default: false
+    },
     gallery: {
-      type: [String], // Array of image URLs
+      type: [String],
       default: []
     },
     reviews: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Review" // Ensure this matches the name of your Review model
+      ref: "Review"
     }]
   },
   { timestamps: true }
