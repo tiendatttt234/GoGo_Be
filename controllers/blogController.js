@@ -78,10 +78,8 @@ export const getSingleBlog = async (req, res) => {
             });
         }
 
-        res.status(200).json({
-            success: true,
-            data: blog
-        });
+        res.status(200).json(blog); // Return blog directly without wrapping
+
     } catch (err) {
         res.status(500).json({
             success: false,
