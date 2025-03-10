@@ -50,20 +50,21 @@ export const getBlogCount = async (req, res) => {
 export const getFeaturedBlogs = async (req, res) => {
     try {
         const blogs = await Blog.find({ featured: true })
-            .populate('author', 'username photo')
-            .limit(8);
+            .populate("author")
+            .limit(8)
 
         res.status(200).json({
             success: true,
+            message: 'Successfully fetched featured blogs',
             data: blogs
-        });
+        })
     } catch (err) {
-        res.status(500).json({
+        res.status(404).json({
             success: false,
             message: "Failed to fetch featured blogs"
-        });
+        })
     }
-};
+}
 
 // Get single blog
 export const getSingleBlog = async (req, res) => {

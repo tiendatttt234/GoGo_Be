@@ -76,21 +76,14 @@ export const getSingleTour = async (req, res) => {
 
 // getAllTour tour 
 export const getAllTour = async (req, res) => {
-    const page = parseInt(req.query.page) || 0
-    const limit = parseInt(req.query.limit) || 8
-    
     try {
-        const totalTours = await Tour.countDocuments()
         const tours = await Tour.find({})
             .populate("reviews")
-            .skip(page * limit)
-            .limit(limit)
+            .sort({ createdAt: -1 }) // Sort by newest first
 
         res.status(200).json({
             success: true,
             count: tours.length,
-            totalPages: Math.ceil(totalTours / limit),
-            currentPage: page,
             data: tours
         })
     } catch(err) {
