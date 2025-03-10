@@ -69,7 +69,8 @@ export const getFeaturedBlogs = async (req, res) => {
 export const getSingleBlog = async (req, res) => {
     try {
         const blog = await Blog.findById(req.params.id)
-            .populate('author', 'username photo');
+            .populate('author', 'username photo')
+            .select('+links +link') // Explicitly include links fields
 
         if (!blog) {
             return res.status(404).json({
@@ -78,11 +79,17 @@ export const getSingleBlog = async (req, res) => {
             });
         }
 
+        // Ensure links are properly included in the response
+        const blogData = {
+            ...blog.toObject(),
+            links: blog.links || [], // Ensure links array exists
+            link: blog.link || ''    // Ensure single link exists
+        };
+
         res.status(200).json({
             success: true,
-            data: blog
-        });  // Wrap blog in success/data format
-
+            data: blogData
+        });
     } catch (err) {
         console.error('Error fetching blog:', err);
         res.status(500).json({
@@ -95,17 +102,24 @@ export const getSingleBlog = async (req, res) => {
 // Create new blog (admin only)
 export const createBlog = async (req, res) => {
     try {
-        // Check if blog with same title exists
-        const existingBlog = await Blog.findOne({ title: req.body.title });
-        if (existingBlog) {
+        const { title, description, content, photo, category, featured, links } = req.body;
+
+        // Validate links array
+        if (links && !Array.isArray(links)) {
             return res.status(400).json({
                 success: false,
-                message: "A blog with this title already exists"
+                message: 'Links must be an array'
             });
         }
 
         const newBlog = new Blog({
-            ...req.body,
+            title,
+            description,
+            content,
+            photo,
+            category,
+            featured: featured || false,
+            links: links || [],
             author: req.user.id
         });
 
@@ -113,14 +127,14 @@ export const createBlog = async (req, res) => {
         
         res.status(201).json({
             success: true,
-            message: "Blog created successfully",
+            message: 'Blog created successfully',
             data: savedBlog
         });
     } catch (err) {
-        console.error('Error creating blog:', err);
         res.status(500).json({
             success: false,
-            message: err.code === 11000 ? "A blog with this title already exists" : "Failed to create blog"
+            message: 'Failed to create blog',
+            error: err.message
         });
     }
 };

@@ -19,6 +19,23 @@ const blogSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+  
+    links: [{
+      title: {
+        type: String,
+        required: true
+      },
+      url: {
+        type: String,
+        required: true,
+        validate: {
+          validator: function(v) {
+            return /^(http|https):\/\/[^ "]+$/.test(v);
+          },
+          message: 'URL must be valid and start with http:// or https://'
+        }
+      }
+    }],
     author: {
       type: mongoose.Types.ObjectId,
       ref: "User",
