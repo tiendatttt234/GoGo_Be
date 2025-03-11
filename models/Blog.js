@@ -36,6 +36,16 @@ const blogSchema = new mongoose.Schema(
         }
       }
     }],
+    video: {
+      type: String,
+      validate: {
+        validator: function(v) {
+          // Validate YouTube, Vimeo or direct video URL
+          return !v || /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|vimeo\.com)\/.+|^https?:\/\/.+\.(mp4|webm)$/.test(v);
+        },
+        message: 'Video URL must be a valid YouTube, Vimeo or direct video link'
+      }
+    },
     author: {
       type: mongoose.Types.ObjectId,
       ref: "User",
