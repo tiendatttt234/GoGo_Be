@@ -41,68 +41,50 @@ export const getTopReviewers = async (req, res) => {
 // Create new review
 export const createReview = async (req, res) => {
     const tourId = req.params.tourId;
-    const { reviewText, rating } = req.body;
     const userId = req.user.id;
     const username = req.user.username;
+    const { reviewText, rating, images } = req.body;  // Add images to destructuring
 
     try {
-        // Validate required fields
+        // Validate review text and rating
         if (!reviewText || !rating) {
             return res.status(400).json({
                 success: false,
-                message: 'Missing required fields',
-                error: 'reviewText and rating are required'
+                message: 'Review text and rating are required'
             });
         }
 
-        // Validate rating range
-        if (rating < 0 || rating > 5) {
-            return res.status(400).json({
-                success: false,
-                message: 'Invalid rating',
-                error: 'Rating must be between 0 and 5'
-            });
-        }
-
-        // Check if tour exists
-        const tour = await Tour.findById(tourId);
-        if (!tour) {
-            return res.status(404).json({
-                success: false,
-                message: 'Tour not found',
-                error: 'Invalid tour ID'
-            });
-        }
-
+        // Create new review with images
         const newReview = new Review({
             productId: tourId,
-            userId,
-            username,
+            username: username,
+            userId: userId,
             reviewText,
-            rating
+            rating,
+            images: images || [] // Add images array with default empty array
         });
 
         const savedReview = await newReview.save();
 
-        // After creating a new review, update the reviews array of the tour
+        // Add review to tour
         await Tour.findByIdAndUpdate(tourId, {
             $push: { reviews: savedReview._id }
         });
 
         res.status(200).json({
             success: true,
-            message: 'Review submitted successfully',
+            message: 'Review submitted',
             data: savedReview
         });
+
     } catch (err) {
         console.error('Error creating review:', err);
         res.status(500).json({
             success: false,
-            message: 'Failed to submit review',
-            error: err.message
+            message: err.message
         });
     }
-}
+};
 
 // Get reviews by tour id
 export const getReviews = async (req, res) => {

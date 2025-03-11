@@ -24,36 +24,35 @@ const reviewSchema = new mongoose.Schema(
     productId: {
       type: mongoose.Types.ObjectId,
       ref: "Tour",
-      required: true,
-    },
-    userId: {
-      type: mongoose.Types.ObjectId,
-      ref: "User",
-      required: true,
     },
     username: {
       type: String,
       required: true,
     },
+    userId: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
     reviewText: {
       type: String,
       required: true,
     },
-    images: [{
-      type: String
-    }],
     rating: {
       type: Number,
       required: true,
-      min: 0,
+      min: 1,
       max: 5,
-      default: 0,
+      default: 5,
     },
-    likes: [{
-      type: mongoose.Types.ObjectId,
-      ref: "User"
+    images: [{
+      type: String,
+      validate: {
+        validator: function(v) {
+          return /^(http|https):\/\/[^ "]+$/.test(v);
+        },
+        message: 'Image URL must be valid and start with http:// or https://'
+      }
     }],
-    replies: [replySchema],
   },
   { timestamps: true }
 );
