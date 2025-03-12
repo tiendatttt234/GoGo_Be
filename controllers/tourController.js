@@ -165,31 +165,36 @@ export const deleteImageFromGallery = async (req, res) => {
     }
 }
 
-//get tour by search
+// Get tour by search
 export const getTourBySearch = async (req, res) => {
-    const city = new RegExp(req.query.city, 'i')
-    const distance = parseInt(req.query.distance)
-    const maxGroupSize = parseInt(req.query.maxGroupSize)
-
     try {
-        const tours = await Tour.find({
-            city,
-            distance: {$gte: distance},
-            maxGroupSize: {$gte: maxGroupSize},
-        }).populate("reviews")
+        const title = new RegExp(req.query.title, 'i'); // 'i' flag for case-insensitive search
+        
+        const tours = await Tour.find({ 
+            title: { $regex: title }
+        }).populate("reviews");
+
+        if (!tours || tours.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "No tours found",
+                data: []
+            });
+        }
 
         res.status(200).json({
             success: true,
-            message: 'Successful', 
-            data: tours,
-        })
+            message: 'Tours found successfully',
+            data: tours
+        });
     } catch(err) {
-        res.status(404).json({
+        res.status(500).json({
             success: false,
-            message: "Not found",
-        })
+            message: "Error searching tours",
+            error: err.message
+        });
     }
-}
+};
 
 // get featured tour 
 export const getFeaturedTour = async (req, res) => {

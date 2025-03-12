@@ -34,6 +34,7 @@ router.get('/', getAllTour)
 router.get('/search/getTourBySearch', getTourBySearch)
 router.get('/search/getFeaturedTours', getFeaturedTour)
 router.get('/search/getTourCount', getTourCount)
+router.get('/search', getTourBySearch)
 
 // gallery operations
 router.post('/:tourId/gallery', verifyAdmin, addImageToGallery)
