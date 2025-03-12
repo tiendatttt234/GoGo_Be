@@ -196,9 +196,10 @@ export const deleteReview = async (req, res) => {
     }
 };
 
-// Add this new controller function
+// Get all reviewers
 export const getAllReviewers = async (req, res) => {
     try {
+        console.log('Fetching all reviewers...');
         const allReviewers = await Review.aggregate([
             {
                 $group: {
@@ -212,12 +213,15 @@ export const getAllReviewers = async (req, res) => {
             }
         ]);
 
+        console.log('All reviewers:', allReviewers);
+
         res.status(200).json({
             success: true,
             message: 'Successfully retrieved all reviewers',
             data: allReviewers
         });
     } catch (err) {
+        console.error('Error in getAllReviewers:', err);
         res.status(500).json({
             success: false,
             message: 'Failed to get all reviewers',
