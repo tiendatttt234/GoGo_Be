@@ -15,6 +15,9 @@ import { verifyAdmin } from '../utils/verifyToken.js'
 
 const router = express.Router()
 
+// get tour by search
+router.get('/search', getTourBySearch)
+
 //create new tour
 router.post('/', verifyAdmin, createTour)
 
@@ -30,11 +33,9 @@ router.get('/:id', getSingleTour)
 //get all tours
 router.get('/', getAllTour)
 
-// get tour by search
 router.get('/search/getTourBySearch', getTourBySearch)
 router.get('/search/getFeaturedTours', getFeaturedTour)
 router.get('/search/getTourCount', getTourCount)
-router.get('/search', getTourBySearch)
 
 // gallery operations
 router.post('/:tourId/gallery', verifyAdmin, addImageToGallery)

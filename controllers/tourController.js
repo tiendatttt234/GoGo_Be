@@ -168,25 +168,27 @@ export const deleteImageFromGallery = async (req, res) => {
 // Get tour by search
 export const getTourBySearch = async (req, res) => {
     try {
-        const title = new RegExp(req.query.title, 'i'); // 'i' flag for case-insensitive search
+        // Get search term from query
+        const { title } = req.query;
         
+        // Create case-insensitive regex for search
+        const searchPattern = new RegExp(title, 'i');
+        
+        // Find tours matching the search pattern
         const tours = await Tour.find({ 
-            title: { $regex: title }
+            $or: [
+                { title: { $regex: searchPattern } },
+                { city: { $regex: searchPattern } }
+            ]
         }).populate("reviews");
 
-        if (!tours || tours.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "No tours found",
-                data: []
-            });
-        }
-
+        // Return results
         res.status(200).json({
             success: true,
             message: 'Tours found successfully',
             data: tours
         });
+
     } catch(err) {
         res.status(500).json({
             success: false,
