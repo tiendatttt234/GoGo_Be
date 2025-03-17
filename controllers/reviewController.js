@@ -229,3 +229,20 @@ export const getAllReviewers = async (req, res) => {
         });
     }
 };
+
+// Get review count
+export const getReviewCount = async (req, res) => {
+    try {
+        const reviewCount = await Review.countDocuments();
+        res.status(200).json({
+            success: true,
+            data: reviewCount
+        });
+    } catch(err) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch review count",
+            error: err.message
+        });
+    }
+};
