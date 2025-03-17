@@ -15,6 +15,9 @@ import { verifyAdmin } from '../utils/verifyToken.js'
 
 const router = express.Router()
 
+// Add this before other routes to avoid conflicts
+router.get('/count', getTourCount);
+
 // get tour by search
 router.get('/search', getTourBySearch)
 
@@ -36,7 +39,6 @@ router.get('/', getAllTour)
 router.get('/search/getTourBySearch', getTourBySearch)
 router.get('/search/getFeaturedTours', getFeaturedTour)
 router.get('/search/getTourCount', getTourCount)
-router.get('/count', getTourCount);
 // gallery operations
 router.post('/:tourId/gallery', verifyAdmin, addImageToGallery)
 router.delete('/:tourId/gallery/:imageIndex', verifyAdmin, deleteImageFromGallery)

@@ -4,12 +4,12 @@ import { verifyUser } from '../utils/verifyToken.js'
 
 const router = express.Router()
 
+router.get('/count', getReviewCount);
 router.get('/top-reviewers', getTopReviewers)
 router.get('/all-reviewers', getAllReviewers);
 router.get('/:tourId', getReviews)
 router.post('/:tourId', verifyUser, createReview)
 router.put('/:reviewId', verifyUser, updateReview)
 router.delete('/:reviewId', verifyUser, deleteReview)
-router.get('/count', getReviewCount);
 
 export default router

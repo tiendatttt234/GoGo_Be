@@ -241,8 +241,7 @@ export const getReviewCount = async (req, res) => {
     } catch (err) {
         res.status(500).json({
             success: false,
-            message: "Failed to fetch review count",
-            error: err.message
+            message: "Failed to fetch review count"
         });
     }
 };

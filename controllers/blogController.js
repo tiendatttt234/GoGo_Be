@@ -31,8 +31,7 @@ export const getBlogCount = async (req, res) => {
     } catch (err) {
         res.status(500).json({
             success: false,
-            message: "Failed to fetch blog count",
-            error: err.message
+            message: "Failed to fetch blog count"
         });
     }
 };
