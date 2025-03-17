@@ -168,7 +168,7 @@ export const getAllUser = async (req, res) => {
     }
 }
 
-// Get user count
+// Get user count (public route)
 export const getUserCount = async (req, res) => {
     try {
         const userCount = await User.countDocuments();

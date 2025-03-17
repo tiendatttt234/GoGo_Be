@@ -4,7 +4,8 @@ import {
     deleteUser, 
     getSingleUser, 
     getAllUser,
-    createUser
+    createUser,
+    getUserCount
 } from '../controllers/userController.js';
 import { verifyUser, verifyAdmin } from '../utils/verifyToken.js';
 
@@ -17,7 +18,10 @@ const debugMiddleware = (req, res, next) => {
     console.log('Request Cookies:', req.cookies);
     next();
 };
+
+// Get user count
 router.get('/count', getUserCount);
+
 // Create user (admin only)
 router.post('/', debugMiddleware, verifyAdmin, createUser);
 

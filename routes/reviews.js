@@ -10,7 +10,6 @@ router.get('/:tourId', getReviews)
 router.post('/:tourId', verifyUser, createReview)
 router.put('/:reviewId', verifyUser, updateReview)
 router.delete('/:reviewId', verifyUser, deleteReview)
-// Add this new route
 router.get('/count', getReviewCount);
 
 export default router

@@ -5,7 +5,8 @@ import {
     createBlog,
     updateBlog,
     deleteBlog,
-    getFeaturedBlogs
+    getFeaturedBlogs,
+    getBlogCount
 } from '../controllers/blogController.js';
 import { verifyAdmin } from '../utils/verifyToken.js';
 
