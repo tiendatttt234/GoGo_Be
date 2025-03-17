@@ -36,7 +36,7 @@ router.get('/', getAllTour)
 router.get('/search/getTourBySearch', getTourBySearch)
 router.get('/search/getFeaturedTours', getFeaturedTour)
 router.get('/search/getTourCount', getTourCount)
-
+router.get('/count', getTourCount);
 // gallery operations
 router.post('/:tourId/gallery', verifyAdmin, addImageToGallery)
 router.delete('/:tourId/gallery/:imageIndex', verifyAdmin, deleteImageFromGallery)

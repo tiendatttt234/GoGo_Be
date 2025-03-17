@@ -221,15 +221,16 @@ export const getFeaturedTour = async (req, res) => {
 // get tour count
 export const getTourCount = async (req, res) => {
     try {
-        const tourCount = await Tour.countDocuments()
+        const tourCount = await Tour.countDocuments();
         res.status(200).json({
             success: true,
             data: tourCount
-        })
-    } catch(err) {
+        });
+    } catch (err) {
         res.status(500).json({
             success: false,
-            message: "Failed to fetch",
-        })
+            message: "Failed to fetch tour count",
+            error: err.message
+        });
     }
-}
+};

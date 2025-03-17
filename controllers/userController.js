@@ -168,10 +168,28 @@ export const getAllUser = async (req, res) => {
     }
 }
 
+// Get user count
+export const getUserCount = async (req, res) => {
+    try {
+        const userCount = await User.countDocuments();
+        res.status(200).json({
+            success: true,
+            data: userCount
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch user count",
+            error: err.message
+        });
+    }
+};
+
 export default {
     createUser,
     updateUser,
     deleteUser,
     getSingleUser,
-    getAllUser
+    getAllUser,
+    getUserCount
 }

@@ -17,7 +17,7 @@ const debugMiddleware = (req, res, next) => {
     console.log('Request Cookies:', req.cookies);
     next();
 };
-
+router.get('/count', getUserCount);
 // Create user (admin only)
 router.post('/', debugMiddleware, verifyAdmin, createUser);
 

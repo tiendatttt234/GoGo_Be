@@ -23,18 +23,19 @@ export const getAllBlogs = async (req, res) => {
 // Get blog count
 export const getBlogCount = async (req, res) => {
     try {
-        const count = await Blog.countDocuments()
+        const blogCount = await Blog.countDocuments();
         res.status(200).json({
             success: true,
-            data: count
-        })
+            data: blogCount
+        });
     } catch (err) {
         res.status(500).json({
             success: false,
-            message: 'Failed to get count'
-        })
+            message: "Failed to fetch blog count",
+            error: err.message
+        });
     }
-}
+};
 
 // Get featured blogs
 export const getFeaturedBlogs = async (req, res) => {
