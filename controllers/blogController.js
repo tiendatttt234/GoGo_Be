@@ -1,25 +1,15 @@
 import Blog from '../models/Blog.js';
 
-// Get all blogs with pagination
+// Get all blogs
 export const getAllBlogs = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 0;
-        const limit = parseInt(req.query.limit) || 8;
-        const skip = page * limit;
-
         const blogs = await Blog.find()
             .populate('author', 'username photo')
-            .sort({ createdAt: -1 })
-            .skip(skip)
-            .limit(limit);
-
-        const total = await Blog.countDocuments();
+            .sort({ createdAt: -1 });
 
         res.status(200).json({
             success: true,
             count: blogs.length,
-            total,
-            page,
             data: blogs
         });
     } catch (err) {
